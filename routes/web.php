@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ArticleController;
 
+use Illuminate\Support\Facades\View;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/all', function () {
+    return view('allArticles');
+});
+
+
+Route::get('/', [ArticleController::class, 'home']);
+
+Route::get('/detail/{id}', [ArticleController::class, 'articleDetail']);
+
+Route::get('/category/{name}', [CategoryController::class, 'categoryPage']);
+
+Route::get('/front', [CategoryController::class, 'front']);
+
+// View::composer('/front', [CategoryController::class, 'front']);
+
+
+Route::group(['prefix' => 'admin'], function () {
+    Voyager::routes();
 });
